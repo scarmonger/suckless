@@ -2,7 +2,7 @@
 #include <X11/XF86keysym.h>
 
 /* Constants */
-#define TERMINAL "st-z 18"
+#define TERMINAL "st"
 #define TERMCLASS "st"
 #define BROWSER "qutebrowser"
 
@@ -70,7 +70,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run_history", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", "-z 18" };
+static const char *termcmd[]  = { "st", NULL };
 
 
 static Key keys[] = {
@@ -90,7 +90,8 @@ static Key keys[] = {
 	{ 0,							XF86XK_MonBrightnessDown,spawn,					 SHCMD("brightnessctl set 5%-")},
 	{ 0,														XK_Print,	 spawn,					 SHCMD("ksnip -s")},
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,					              XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,					              XK_Return, spawn,          SHCMD(TERMINAL " -e fish") },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
