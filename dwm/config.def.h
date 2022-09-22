@@ -87,8 +87,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_F9,  	 spawn, 				 {.v = mutevol } },
 	{ MODKEY,                       XK_F10, 	 spawn, 				 {.v = upvol   } },
 	/** { MODKEY|ShiftMask,         XK_F11, 	 spawn, 				 SHCMD(TERMINAL " brightnessctl set 5%-")}, */
-	{ MODKEY,                  	  XK_w,		 spawn, 				 SHCMD("qutebrowser")},
-	{ MODKEY|ShiftMask,          	  XK_w,		 spawn, 				 SHCMD("firefox")},
+	{ MODKEY|ShiftMask,          	  XK_w,		 spawn, 				 SHCMD("qutebrowser")},
+	{ MODKEY,      			     	  XK_w,		 spawn, 				 SHCMD("firefox")},
 	{ MODKEY,                  	  XK_v,		 spawn, 				 SHCMD("code")},
 	{ MODKEY,                  	  XK_e,		 spawn, 				 SHCMD(TERMINAL " -e ranger")},
 	{ MODKEY|ShiftMask,             XK_e, 		 spawn, 				 SHCMD("thunar")},
@@ -100,6 +100,7 @@ static Key keys[] = {
 	{ 0,			  XF86XK_MonBrightnessDown,	 spawn,		 		 SHCMD("brightnessctl set 5%-")},
 	{ 0,									  XK_Print,	 spawn,				 SHCMD("ksnip -s")},
 	{ MODKEY,                       XK_p,      spawn, 	          {.v = dmenucmd } },
+	{ MODKEY|ShiftMask,             XK_p,      spawn, 	          SHCMD("dm-config-file")}, 
 	{ MODKEY,					        XK_Return, spawn,       	  	 SHCMD(TERMINAL " -e fish") },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          	 {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      	 {0} },
