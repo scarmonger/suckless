@@ -98,7 +98,7 @@ static Key keys[] = {
 	{ MODKEY,                  	  XK_e,		 spawn, 				 SHCMD(TERMINAL " -e ranger")},
 	{ MODKEY|ShiftMask,           XK_e, 	 spawn, 				 SHCMD("thunar")},
 	{ MODKEY,                  	  XK_Escape, spawn, 				 SHCMD("slock")},
-	{ MODKEY|ShiftMask,        	  XK_Escape, spawn, 				 SHCMD("sudo systemctl suspend; slock")},
+	{ MODKEY|ShiftMask,        	  XK_Escape, spawn, 				 SHCMD("systemctl suspend; slock")},
 	{ 0,						  XK_Print,	 spawn,				 	 SHCMD("ksnip -s")},
 	{ MODKEY,                       XK_p,      spawn, 	          {.v = dmenucmd } },
 	/**{ MODKEY|ShiftMask,             XK_p,      spawn,	         {.v = termcmd } }, */
