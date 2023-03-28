@@ -102,8 +102,8 @@ static Key keys[] = {
 	{ 0,						  XK_Print,	 spawn,				 	 SHCMD("ksnip -s")},
 	{ MODKEY,                       XK_p,      spawn, 	          {.v = dmenucmd } },
 	/**{ MODKEY|ShiftMask,             XK_p,      spawn,	         {.v = termcmd } }, */
-	{ MODKEY,					    XK_Return, spawn,      	  	 {.v = termcmd } },
-	/** { MODKEY|ShiftMask,             XK_Return, spawn,          	 SHCMD("linux-config-file")}, */
+	{ MODKEY,		             	  XK_BackSpace, spawn,          	 SHCMD("linux-config-file")},
+	{ MODKEY,					    	  XK_Return, spawn,      	  	 {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          	 SHCMD("alacritty")}, 
 	{ MODKEY,                       XK_b,      togglebar,      	 {0} },
 	{ MODKEY,                       XK_j,      focusstack,     	 {.i = +1 } },
