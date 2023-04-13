@@ -24,6 +24,8 @@
                              * MAX(0, MIN((y)+(h),(r).y_org+(r).height) - MAX((y),(r).y_org)))
 #define LENGTH(X)             (sizeof X / sizeof X[0])
 #define TEXTW(X)              (drw_fontset_getwidth(drw, (X)) + lrpad)
+#define NUMBERSMAXDIGITS      100
+#define NUMBERSBUFSIZE        (NUMBERSMAXDIGITS * 2) + 1
 
 /* enums */
 enum { SchemeNorm, SchemeSel, SchemeOut, SchemeLast }; /* color schemes */
@@ -34,6 +36,7 @@ struct item {
 	int out;
 };
 
+static char numbers[NUMBERSBUFSIZE] = "";
 static char text[BUFSIZ] = "";
 static char *embed;
 static int bh, mw, mh;
@@ -58,6 +61,13 @@ static Clr *scheme[SchemeLast];
 static int (*fstrncmp)(const char *, const char *, size_t) = strncmp;
 static char *(*fstrstr)(const char *, const char *) = strstr;
 
+static unsigned int
+textw_clamp(const char *str, unsigned int n)
+{
+	unsigned int w = drw_fontset_getwidth_clamp(drw, str, n) + lrpad;
+	return MIN(w, n);
+}
+
 static void
 appenditem(struct item *item, struct item **list, struct item **last)
 {
@@ -79,13 +89,13 @@ calcoffsets(void)
 	if (lines > 0)
 		n = lines * bh;
 	else
-		n = mw - (promptw + inputw + TEXTW("<") + TEXTW(">"));
+		n = mw - (promptw + inputw + TEXTW("<") + TEXTW(">") + TEXTW(numbers));
 	/* calculate which items will begin the next page and previous page */
 	for (i = 0, next = curr; next; next = next->right)
-		if ((i += (lines > 0) ? bh : MIN(TEXTW(next->text), n)) > n)
+		if ((i += (lines > 0) ? bh : textw_clamp(next->text, n)) > n)
 			break;
 	for (i = 0, prev = curr; prev && prev->left; prev = prev->left)
-		if ((i += (lines > 0) ? bh : MIN(TEXTW(prev->left->text), n)) > n)
+		if ((i += (lines > 0) ? bh : textw_clamp(prev->left->text, n)) > n)
 			break;
 }
 
@@ -97,6 +107,9 @@ cleanup(void)
 	XUngrabKey(dpy, AnyKey, AnyModifier, root);
 	for (i = 0; i < SchemeLast; i++)
 		free(scheme[i]);
+	for (i = 0; items && items[i].text; ++i)
+		free(items[i].text);
+	free(items);
 	drw_free(drw);
 	XSync(dpy, False);
 	XCloseDisplay(dpy);
@@ -134,11 +147,26 @@ drawitem(struct item *item, int x, int y, int w)
 }
 
 static void
+recalculatenumbers()
+{
+	unsigned int numer = 0, denom = 0;
+	struct item *item;
+	if (matchend) {
+		numer++;
+		for (item = matchend; item && item->left; item = item->left)
+			numer++;
+	}
+	for (item = items; item && item->text; item++)
+		denom++;
+	snprintf(numbers, NUMBERSBUFSIZE, "%d/%d", numer, denom);
+}
+
+static void
 drawmenu(void)
 {
 	unsigned int curpos;
 	struct item *item;
-	int x = 0, y = 0, w;
+	int x = 0, y = 0, fh = drw->fonts->h, w;
 
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	drw_rect(drw, 0, 0, mw, mh, 1, 1);
@@ -155,9 +183,10 @@ drawmenu(void)
 	curpos = TEXTW(text) - TEXTW(&text[cursor]);
 	if ((curpos += lrpad / 2 - 1) < w) {
 		drw_setscheme(drw, scheme[SchemeNorm]);
-		drw_rect(drw, x + curpos, 2, 2, bh - 4, 1, 0);
+		drw_rect(drw, x + curpos, 2 + (bh - fh) / 2, 2, fh - 4, 1, 0);
 	}
 
+	recalculatenumbers();
 	if (lines > 0) {
 		/* draw vertical list */
 		for (item = curr; item != next; item = item->right)
@@ -172,13 +201,15 @@ drawmenu(void)
 		}
 		x += w;
 		for (item = curr; item != next; item = item->right)
-			x = drawitem(item, x, 0, MIN(TEXTW(item->text), mw - x - TEXTW(">")));
+			x = drawitem(item, x, 0, textw_clamp(item->text, mw - x - TEXTW(">") - TEXTW(numbers)));
 		if (next) {
 			w = TEXTW(">");
 			drw_setscheme(drw, scheme[SchemeNorm]);
-			drw_text(drw, mw - w, 0, w, bh, lrpad / 2, ">", 0);
+			drw_text(drw, mw - w - TEXTW(numbers), 0, w, bh, lrpad / 2, ">", 0);
 		}
 	}
+	drw_setscheme(drw, scheme[SchemeNorm]);
+	drw_text(drw, mw - TEXTW(numbers), 0, TEXTW(numbers), bh, lrpad / 2, numbers, 0);
 	drw_map(drw, win, 0, 0, mw, mh);
 }
 
@@ -232,7 +263,7 @@ match(void)
 	/* separate input text into tokens to be matched individually */
 	for (s = strtok(buf, " "); s; tokv[tokc - 1] = s, s = strtok(NULL, " "))
 		if (++tokc > tokn && !(tokv = realloc(tokv, ++tokn * sizeof *tokv)))
-			die("cannot realloc %u bytes:", tokn * sizeof *tokv);
+			die("cannot realloc %zu bytes:", tokn * sizeof *tokv);
 	len = tokc ? strlen(tokv[0]) : 0;
 
 	matches = lprefix = lsubstr = matchend = prefixend = substrend = NULL;
@@ -405,7 +436,7 @@ keypress(XKeyEvent *ev)
 	switch(ksym) {
 	default:
 insert:
-		if (!iscntrl(*buf))
+		if (!iscntrl((unsigned char)*buf))
 			insert(buf, len);
 		break;
 	case XK_Delete:
@@ -507,9 +538,9 @@ insert:
 	case XK_Tab:
 		if (!sel)
 			return;
-		strncpy(text, sel->text, sizeof text - 1);
-		text[sizeof text - 1] = '\0';
-		cursor = strlen(text);
+		cursor = strnlen(sel->text, sizeof text - 1);
+		memcpy(text, sel->text, cursor);
+		text[cursor] = '\0';
 		match();
 		break;
 	}
@@ -539,29 +570,22 @@ paste(void)
 static void
 readstdin(void)
 {
-	char buf[sizeof text], *p;
-	size_t i, imax = 0, size = 0;
-	unsigned int tmpmax = 0;
+	char *line = NULL;
+	size_t i, junk, size = 0;
+	ssize_t len;
 
 	/* read each line from stdin and add it to the item list */
-	for (i = 0; fgets(buf, sizeof buf, stdin); i++) {
+	for (i = 0; (len = getline(&line, &junk, stdin)) != -1; i++, line = NULL) {
 		if (i + 1 >= size / sizeof *items)
 			if (!(items = realloc(items, (size += BUFSIZ))))
-				die("cannot realloc %u bytes:", size);
-		if ((p = strchr(buf, '\n')))
-			*p = '\0';
-		if (!(items[i].text = strdup(buf)))
-			die("cannot strdup %u bytes:", strlen(buf) + 1);
+				die("cannot realloc %zu bytes:", size);
+		if (line[len - 1] == '\n')
+			line[len - 1] = '\0';
+		items[i].text = line;
 		items[i].out = 0;
-		drw_font_getexts(drw->fonts, buf, strlen(buf), &tmpmax, NULL);
-		if (tmpmax > inputw) {
-			inputw = tmpmax;
-			imax = i;
-		}
 	}
 	if (items)
 		items[i].text = NULL;
-	inputw = items ? TEXTW(items[imax].text) : 0;
 	lines = MIN(lines, i);
 }
 
@@ -627,6 +651,7 @@ setup(void)
 
 	/* calculate menu geometry */
 	bh = drw->fonts->h + 2;
+	bh = MAX(bh,lineheight);	/* make a menu line AT LEAST 'lineheight' tall */
 	lines = MAX(lines, 0);
 	mh = (lines + 1) * bh;
 #ifdef XINERAMA
@@ -652,7 +677,7 @@ setup(void)
 		/* no focused window is on screen, so use pointer location instead */
 		if (mon < 0 && !area && XQueryPointer(dpy, root, &dw, &dw, &x, &y, &di, &di, &du))
 			for (i = 0; i < n; i++)
-				if (INTERSECT(x, y, 1, 1, info[i]))
+				if (INTERSECT(x, y, 1, 1, info[i]) != 0)
 					break;
 
 		x = info[i].x_org;
@@ -670,7 +695,7 @@ setup(void)
 		mw = wa.width;
 	}
 	promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
-	inputw = MIN(inputw, mw/3);
+	inputw = mw / 3; /* input width: ~33% of monitor width */
 	match();
 
 	/* create menu window */
@@ -707,9 +732,8 @@ setup(void)
 static void
 usage(void)
 {
-	fputs("usage: dmenu [-bfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
-	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n", stderr);
-	exit(1);
+	die("usage: dmenu [-bfiv] [-l lines] [-h height] [-p prompt] [-fn font] [-m monitor]\n"
+	    "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]");
 }
 
 int
@@ -735,6 +759,10 @@ main(int argc, char *argv[])
 		/* these options take one argument */
 		else if (!strcmp(argv[i], "-l"))   /* number of lines in vertical list */
 			lines = atoi(argv[++i]);
+		else if (!strcmp(argv[i], "-h")) { /* minimum height of one menu line */
+			lineheight = atoi(argv[++i]);
+			lineheight = MAX(lineheight, min_lineheight);
+		}
 		else if (!strcmp(argv[i], "-m"))
 			mon = atoi(argv[++i]);
 		else if (!strcmp(argv[i], "-p"))   /* adds prompt to left of input field */
