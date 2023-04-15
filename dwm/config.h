@@ -32,17 +32,39 @@ static const char *colors[][3]      = {
 static const XPoint stickyicon[]    = { {0,0}, {4,0}, {4,8}, {2,6}, {0,8}, {0,0} }; /* represents the icon as an array of vertices */
 static const XPoint stickyiconbb    = {4,8};	/* defines the bottom right corner of the polygon's bounding box (speeds up scaling) */
 
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
+const char *spcmd3[] = {"tkeepassxc", NULL };
+const char *spcmd4[] = {"tobsidian", NULL };
+const char *spcmd5[] = {"tthunar", NULL };
+const char *spcmd6[] = {"tcode", NULL };
+static Sp scratchpads[] = {
+	/* name          cmd  */
+	{"spterm",      spcmd1},
+	{"spranger",    spcmd2},
+	{"tkeepassxc",  spcmd3},
+	{"tobsidian",   spcmd4},
+	{"tthunar",     spcmd5},
+	{"tcode",       spcmd6},
+};
+
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
+	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
+	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,			 -1 },
+	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,			 -1 },
+	{ NULL,		  "keepassxc",	NULL,		SPTAG(2),		0,			 -1 },
 };
 
 /* layout(s) */
@@ -78,56 +100,16 @@ static const char *dmenucmd[] = { "dmenu_run_history", "-m", dmenumon, "-fn", dm
 static const char *termcmd[]  = { "st", NULL };
 
 
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                  	  XK_F11, 	 spawn, 				 SHCMD("brightnessctl set 5%+")},
-	{ MODKEY|ShiftMask,        	  XK_F11, 	 spawn, 				 SHCMD("brightnessctl set 5%-")},
-	{ 0,		  XF86XK_MonBrightnessUp, 	 spawn,				 	 SHCMD("brightnessctl set 5%+")},
-	{ 0,		XF86XK_MonBrightnessDown,	 spawn,		 		 	 SHCMD("brightnessctl set 5%-")},
-	{ 0,        XF86XK_AudioLowerVolume, 	 spawn, 				 {.v = downvol } },
-	{ 0,  		       XF86XK_AudioMute,	 spawn, 				 {.v = mutevol } },
-	{ 0,        XF86XK_AudioRaiseVolume, 	 spawn, 				 {.v = upvol   } },
-	{ MODKEY,                     XK_F9,	 spawn, 				 {.v = downvol } },
-	{ MODKEY|ShiftMask,           XK_F9,  	 spawn, 				 {.v = mutevol } },
-	{ MODKEY,                     XK_F10, 	 spawn, 				 {.v = upvol   } },
-	/** { MODKEY|ShiftMask,         XK_F11, 	 spawn, 				 SHCMD(TERMINAL " brightnessctl set 5%-")}, */
-	{ MODKEY|ShiftMask,           XK_w,		 spawn, 				 SHCMD("qutebrowser")},
-	{ MODKEY,      			      XK_w,		 spawn, 				 SHCMD("firefox")},
-	/** { MODKEY,             XK_backslash,	 	 spawn, 				 SHCMD("clipmenu")},*/
-	{ MODKEY,             		  XK_v,	 	 spawn, 				 SHCMD("clipmenu")},
-	{ MODKEY,                  	  XK_e,		 spawn, 				 SHCMD(TERMINAL " -e ranger")},
-	{ MODKEY|ShiftMask,           XK_e, 	 spawn, 				 SHCMD("thunar")},
-	{ MODKEY,                  	  XK_Escape, spawn, 				 SHCMD("slock")},
-	{ MODKEY|ShiftMask,        	  XK_Escape, spawn, 				 SHCMD("systemctl suspend; slock")},
-	{ 0,						  XK_Print,	 spawn,				 	 SHCMD("ksnip -s")},
-	{ MODKEY,                       XK_p,      spawn, 	          {.v = dmenucmd } },
-	/**{ MODKEY|ShiftMask,             XK_p,      spawn,	         {.v = termcmd } }, */
-	{ MODKEY,		             	  XK_BackSpace, spawn,          	 SHCMD("linux-config-file")},
-	{ MODKEY,					    	  XK_Return, spawn,      	  	 {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          	 SHCMD("alacritty")}, 
-	{ MODKEY,                       XK_b,      togglebar,      	 {0} },
-	{ MODKEY,                       XK_j,      focusstack,     	 {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     	 {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     	 {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     	 {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       	 {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       	 {.f = +0.05} },
-	{ MODKEY,			              XK_c,		 zoom,           	 {0} },
-	{ MODKEY,                       XK_Tab,    view,           	 {0} },
-	{ MODKEY,			              XK_q,      killclient,     	 {0} },
-/**{ MODKEY,                       XK_comma,  scratchpad_show,  {.i = 1} },
-	{ MODKEY,                       XK_period, scratchpad_show,  {.i = 2} }, */
-	{ MODKEY,                       XK_slash,  scratchpad_show,  {.i = 3} },
-/**{ MODKEY|ShiftMask,             XK_comma,  scratchpad_hide,  {.i = 1} },
-	{ MODKEY|ShiftMask,             XK_period, scratchpad_hide,  {.i = 2} }, */
-	{ MODKEY|ShiftMask,             XK_slash,  scratchpad_hide,  {.i = 3} },
-/**{ MODKEY|ShiftMask,        XK_apostrophe,scratchpad_remove,       {0} }, */
 
+	/** Layout Keybinding */
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_b,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
@@ -141,6 +123,56 @@ static Key keys[] = {
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
+	{ MODKEY,                       XK_i,      incnmaster,     	 {.i = +1 } },
+	{ MODKEY,                       XK_d,      incnmaster,     	 {.i = -1 } },
+
+
+
+	{ 0,		  	XF86XK_MonBrightnessUp, 	 spawn,				  SHCMD("brightnessctl set 5%+")},
+	{ 0,			XF86XK_MonBrightnessDown,	 spawn,		 		  SHCMD("brightnessctl set 5%-")},
+	{ 0,        XF86XK_AudioLowerVolume, 	 spawn, 				  {.v = downvol } },
+	{ 0,  		       XF86XK_AudioMute,	 spawn, 				  {.v = mutevol } },
+	{ 0,        XF86XK_AudioRaiseVolume, 	 spawn, 				  {.v = upvol   } },
+
+
+	{ MODKEY,                  	  XK_F11, 	 spawn, 				 SHCMD("brightnessctl set 5%+")},
+	{ MODKEY|ShiftMask,        	  XK_F11, 	 spawn, 				 SHCMD("brightnessctl set 5%-")},
+	{ MODKEY,                       XK_F9,	    spawn, 				 {.v = downvol } },
+	{ MODKEY|ShiftMask,             XK_F9,  	 spawn, 				 {.v = mutevol } },
+	{ MODKEY,                       XK_F10, 	 spawn, 				 {.v = upvol   } },
+	{ MODKEY,                  	  XK_Escape, spawn, 				 SHCMD("slock")},
+	{ MODKEY|ShiftMask,        	  XK_Escape, spawn, 				 SHCMD("systemctl suspend; slock")},
+	{ MODKEY,                       XK_p,      spawn, 	          {.v = dmenucmd } },
+	{ MODKEY,					    	  XK_Return, spawn,      	  	 {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          	 SHCMD("alacritty")}, 
+	/** { MODKEY,                       XK_b,      togglebar,      	 {0} }, */
+
+	/** Application */
+	{ MODKEY|ShiftMask,           XK_w,		 spawn, 				 SHCMD("qutebrowser")},
+	{ MODKEY,      			      XK_w,		 spawn, 				 SHCMD("firefox")},
+	{ MODKEY,             		   XK_v,	 	 spawn, 				 SHCMD("clipmenu")},
+	{ MODKEY,                  	XK_e,		 spawn, 				 SHCMD(TERMINAL " -e ranger")},
+	{ MODKEY|ShiftMask,           XK_e, 	 spawn, 				 SHCMD("thunar")},
+	{ 0,						  			XK_Print, spawn,				 SHCMD("ksnip -s")},
+
+	{ MODKEY,		             	XK_BackSpace, spawn,        	 SHCMD("linux-config-file")},
+
+
+	{ MODKEY,                       XK_j,      focusstack,     	 {.i = +1 } },
+	{ MODKEY,                       XK_k,      focusstack,     	 {.i = -1 } },
+	{ MODKEY,                       XK_h,      setmfact,       	 {.f = -0.05} },
+	{ MODKEY,                       XK_l,      setmfact,       	 {.f = +0.05} },
+	{ MODKEY,			              XK_c,		 zoom,           	 {0} },
+	{ MODKEY,                       XK_Tab,    view,           	 {0} },
+	{ MODKEY,			              XK_q,      killclient,     	 {0} },
+
+	/** Scratchpad */
+	{ MODKEY,            		 	  XK_y,     togglescratch,  {.ui = 0 } },
+	{ MODKEY,            			  XK_u,	   togglescratch,  {.ui = 1 } },
+	{ MODKEY|ShiftMask,       		  XK_u,	   togglescratch,  {.ui = 4 } },
+	{ MODKEY,            			  XK_x,	   togglescratch,  {.ui = 2 } },
+	{ MODKEY,            			  XK_n,	   togglescratch,  {.ui = 3 } },
+	{ MODKEY|ShiftMask,    			  XK_n,	   togglescratch,  {.ui = 5 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -163,7 +195,7 @@ static Button buttons[] = {
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
