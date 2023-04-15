@@ -42,7 +42,6 @@ const char *spcmd3[] = {"tkeepassxc", NULL };
 const char *spcmd4[] = {"tobsidian", NULL };
 const char *spcmd5[] = {"tthunar", NULL };
 const char *spcmd6[] = {"tcode", NULL };
-const char *spcmd7[] = {"tet", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
@@ -51,7 +50,6 @@ static Sp scratchpads[] = {
 	{"tobsidian",   spcmd4},
 	{"tthunar",     spcmd5},
 	{"tcode",       spcmd6},
-	{"tet",         spcmd7},
 };
 
 /* tagging */
@@ -172,8 +170,7 @@ static Key keys[] = {
 	{ MODKEY,            		 	  XK_y,     togglescratch,  {.ui = 0 } },
 	{ MODKEY,            			  XK_u,	   togglescratch,  {.ui = 1 } },
 	{ MODKEY|ShiftMask,       		  XK_u,	   togglescratch,  {.ui = 4 } },
-	{ MODKEY,            			  XK_x,	   togglescratch,  {.ui = 6 } },
-	{ MODKEY|ShiftMask,    			  XK_x,	   togglescratch,  {.ui = 2 } },
+	{ MODKEY,             			  XK_x,	   togglescratch,  {.ui = 2 } },
 	{ MODKEY,            			  XK_n,	   togglescratch,  {.ui = 3 } },
 	{ MODKEY|ShiftMask,    			  XK_n,	   togglescratch,  {.ui = 5 } },
 	TAGKEYS(                        XK_1,                      0)
