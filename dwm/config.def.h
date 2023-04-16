@@ -9,9 +9,13 @@
 /* appearance */
 /* static const char *light_up[] = {"/usr/bin/brightnessctl", "set", "5%+", NULL};
 static const char *light_down[] = {"/usr/bin/brightnessctl", "set", "5%-", NULL}; */
+
+/** 
 static const char *upvol[] = { "/usr/bin/amixer", "set", "Master", "5%+"};
 static const char *downvol[] = { "/usr/bin/amixer", "set", "Master", "5%-"};
 static const char *mutevol[] = { "/usr/bin/amixer", "set", "Master", "toggle"};
+*/
+
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -42,6 +46,8 @@ const char *spcmd3[] = {"tkeepassxc", NULL };
 const char *spcmd4[] = {"tobsidian", NULL };
 const char *spcmd5[] = {"tthunar", NULL };
 const char *spcmd6[] = {"tcode", NULL };
+const char *spcmd7[] = {"tfirefox", NULL };
+const char *spcmd8[] = {"tqute", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
@@ -50,6 +56,8 @@ static Sp scratchpads[] = {
 	{"tobsidian",   spcmd4},
 	{"tthunar",     spcmd5},
 	{"tcode",       spcmd6},
+	{"tfirefox",    spcmd7},
+	{"tqute",       spcmd8},
 };
 
 /* tagging */
@@ -111,8 +119,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_b,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[5]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY|ShiftMask,             XK_space,  setlayout,      {0} },
+	{ MODKEY,			              XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -130,16 +138,30 @@ static Key keys[] = {
 
 	{ 0,		  	XF86XK_MonBrightnessUp, 	 spawn,				  SHCMD("brightnessctl set 5%+")},
 	{ 0,			XF86XK_MonBrightnessDown,	 spawn,		 		  SHCMD("brightnessctl set 5%-")},
+	/**
+	{ 0,        XF86XK_AudioRaiseVolume, 	 spawn, 				  {.v = upvol   } },
 	{ 0,        XF86XK_AudioLowerVolume, 	 spawn, 				  {.v = downvol } },
 	{ 0,  		       XF86XK_AudioMute,	 spawn, 				  {.v = mutevol } },
-	{ 0,        XF86XK_AudioRaiseVolume, 	 spawn, 				  {.v = upvol   } },
+	*/
+
+	{ 0,        XF86XK_AudioRaiseVolume, 	 spawn, 				  SHCMD("amixer set Master 5%+; changevolume up") },
+	{ 0,        XF86XK_AudioLowerVolume, 	 spawn, 				  SHCMD("amixer set Master 5%-; changevolume down") },
+	{ 0,  		       XF86XK_AudioMute,	 spawn, 				  SHCMD("amixer set Master toggle; changevolume mute") },
 
 
 	{ MODKEY,                  	  XK_F11, 	 spawn, 				 SHCMD("brightnessctl set 5%+")},
 	{ MODKEY|ShiftMask,        	  XK_F11, 	 spawn, 				 SHCMD("brightnessctl set 5%-")},
+	
+	/** 
 	{ MODKEY,                       XK_F9,	    spawn, 				 {.v = downvol } },
 	{ MODKEY|ShiftMask,             XK_F9,  	 spawn, 				 {.v = mutevol } },
-	{ MODKEY,                       XK_F10, 	 spawn, 				 {.v = upvol   } },
+	{ MODKEY,                       XK_F10, 	 spawn, 				 {.v = upvol   } }, 
+	*/
+
+
+	{ MODKEY,                       XK_F10, 	 spawn, 				 SHCMD("amixer set Master 5%+; changevolume up") },
+	{ MODKEY,                       XK_F9, 	 spawn, 				 SHCMD("amixer set Master 5%-; changevolume down") },
+	{ MODKEY|ShiftMask,             XK_F9, 	 spawn, 				 SHCMD("amixer set Master toggle; changevolume mute") },
 	{ MODKEY,                  	  XK_Escape, spawn, 				 SHCMD("slock")},
 	{ MODKEY|ShiftMask,        	  XK_Escape, spawn, 				 SHCMD("systemctl suspend; slock")},
 	{ MODKEY,                       XK_p,      spawn, 	          {.v = dmenucmd } },
@@ -148,8 +170,10 @@ static Key keys[] = {
 	/** { MODKEY,                       XK_b,      togglebar,      	 {0} }, */
 
 	/** Application */
+	/** 
 	{ MODKEY|ShiftMask,           XK_w,		 spawn, 				 SHCMD("qutebrowser")},
 	{ MODKEY,      			      XK_w,		 spawn, 				 SHCMD("firefox")},
+	kkk*/
 	{ MODKEY,             		   XK_v,	 	 spawn, 				 SHCMD("clipmenu")},
 	{ MODKEY,                  	XK_e,		 spawn, 				 SHCMD(TERMINAL " -e ranger")},
 	{ MODKEY|ShiftMask,           XK_e, 	 spawn, 				 SHCMD("thunar")},
@@ -173,6 +197,8 @@ static Key keys[] = {
 	{ MODKEY,             			  XK_x,	   togglescratch,  {.ui = 2 } },
 	{ MODKEY,            			  XK_n,	   togglescratch,  {.ui = 3 } },
 	{ MODKEY|ShiftMask,    			  XK_n,	   togglescratch,  {.ui = 5 } },
+	{ MODKEY,            			  XK_w,	   togglescratch,  {.ui = 6 } },
+	{ MODKEY|ShiftMask,    			  XK_w,	   togglescratch,  {.ui = 7 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
