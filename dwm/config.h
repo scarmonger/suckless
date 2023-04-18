@@ -167,6 +167,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn, 	          {.v = dmenucmd } },
 	{ MODKEY,					    	  XK_Return, spawn,      	  	 {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          	 SHCMD("alacritty")}, 
+	{ MODKEY,                       XK_grave,	 spawn, 				 SHCMD("dunstctl history-pop") },
+	{ MODKEY|ShiftMask,             XK_grave,	 spawn, 				 SHCMD("dunstctl close-all") },
 	/** { MODKEY,                       XK_b,      togglebar,      	 {0} }, */
 
 	/** Application */
