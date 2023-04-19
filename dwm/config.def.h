@@ -21,8 +21,8 @@ static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=12","fontawesome=12" };
-static const char dmenufont[]       = "monospace:size=12";
+static const char *fonts[]          = { "JetBrains Mono:size=12","fontawesome=12" };
+static const char dmenufont[]       = "JetBrains Mono:size=12";
 static const char col_gray1[]       = "#222222"; /** norm background color */
 static const char col_gray2[]       = "#444444"; /** norm border color */
 static const char col_gray3[]       = "#bbbbbb"; /** norm foreground color or font color */
@@ -42,22 +42,18 @@ typedef struct {
 } Sp;
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
 const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
-const char *spcmd3[] = {"tkeepassxc", NULL };
+const char *spcmd3[] = {"tthunar", NULL };
 const char *spcmd4[] = {"tobsidian", NULL };
-const char *spcmd5[] = {"tthunar", NULL };
-const char *spcmd6[] = {"tcode", NULL };
-const char *spcmd7[] = {"tfirefox", NULL };
-const char *spcmd8[] = {"tqute", NULL };
+const char *spcmd5[] = {"tfirefox", NULL };
+const char *spcmd6[] = {"tqute", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
 	{"spranger",    spcmd2},
-	{"tkeepassxc",  spcmd3},
+	{"tthunar",     spcmd3},
 	{"tobsidian",   spcmd4},
-	{"tthunar",     spcmd5},
-	{"tcode",       spcmd6},
-	{"tfirefox",    spcmd7},
-	{"tqute",       spcmd8},
+	{"tfirefox",    spcmd5},
+	{"tqute",       spcmd6},
 };
 
 /* tagging */
@@ -69,10 +65,13 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
-	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
+	/** { "firefox",  NULL,			NULL,		1 << 8,			1,			 -1 }, */
 	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,			 -1 },
 	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,			 -1 },
-	{ NULL,		  "keepassxc",	NULL,		SPTAG(2),		0,			 -1 },
+	{ NULL,		  "tthunar",	NULL,		SPTAG(2),		1,			 -1 },
+	{ NULL,		  "tobsidian",	NULL,		SPTAG(3),		1,			 -1 },
+	{ "firefox",  NULL,			NULL,		SPTAG(4),		1,			 -1 },
+	{ NULL,		  "tqute",   	NULL,		SPTAG(5),		1,			 -1 },
 };
 
 /* layout(s) */
@@ -195,12 +194,10 @@ static Key keys[] = {
 	/** Scratchpad */
 	{ MODKEY,            		 	  XK_y,     togglescratch,  {.ui = 0 } },
 	{ MODKEY,            			  XK_u,	   togglescratch,  {.ui = 1 } },
-	{ MODKEY|ShiftMask,       		  XK_u,	   togglescratch,  {.ui = 4 } },
-	{ MODKEY,             			  XK_x,	   togglescratch,  {.ui = 2 } },
+	{ MODKEY|ShiftMask,       		  XK_u,	   togglescratch,  {.ui = 2 } },
 	{ MODKEY,            			  XK_n,	   togglescratch,  {.ui = 3 } },
-	{ MODKEY|ShiftMask,    			  XK_n,	   togglescratch,  {.ui = 5 } },
-	{ MODKEY,            			  XK_w,	   togglescratch,  {.ui = 6 } },
-	{ MODKEY|ShiftMask,    			  XK_w,	   togglescratch,  {.ui = 7 } },
+	{ MODKEY,            			  XK_w,	   togglescratch,  {.ui = 4 } },
+	{ MODKEY|ShiftMask,    			  XK_w,	   togglescratch,  {.ui = 5 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
