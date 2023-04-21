@@ -1,0 +1,28 @@
+../
+dwm/
+| patches/
+| config.def.h
+| config.h
+| drw.h
+| util.h
+| drw.c
+| dwm.c
+| transient.c
+| util.c
+| dwm*
+| LICENSE
+| Makefile
+| README
+| config.def.h.orig
+| config.def.h.rej
+| config.h_bak
+| config.mk
+| drw.c.orig
+| dwm-scratchpads-20200414-728d397b.diff
+| dwm.1
+| dwm.c.orig
+| dwm.c.rej
+| dwm.png
+| drw.o
+| dwm.o
+| util.o

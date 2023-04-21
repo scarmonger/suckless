@@ -1,3 +1,4 @@
+
 /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
 
@@ -41,11 +42,13 @@ typedef struct {
 	const void *cmd;
 } Sp;
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
+/* const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL }; */
+const char *spcmd2[] = {"st", "-n", "spfm", "-g", "120x34", NULL }; 
 const char *spcmd3[] = {"tthunar", NULL };
 const char *spcmd4[] = {"tobsidian", NULL };
 const char *spcmd5[] = {"tfirefox", NULL };
 const char *spcmd6[] = {"tqute", NULL };
+const char *spcmd7[] = {"tchrome", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
@@ -54,6 +57,7 @@ static Sp scratchpads[] = {
 	{"tobsidian",   spcmd4},
 	{"tfirefox",    spcmd5},
 	{"tqute",       spcmd6},
+	{"tchrome",     spcmd7},
 };
 
 /* tagging */
@@ -68,10 +72,11 @@ static const Rule rules[] = {
 	/** { "firefox",  NULL,			NULL,		1 << 8,			1,			 -1 }, */
 	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,			 -1 },
 	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,			 -1 },
-	{ NULL,		  "tthunar",	NULL,		SPTAG(2),		1,			 -1 },
-	{ NULL,		  "tobsidian",	NULL,		SPTAG(3),		1,			 -1 },
+	{ "Thunar",   NULL,		   NULL,		SPTAG(2),		1,			 -1 },
+	{ "obsidian", NULL,		  	NULL,		SPTAG(3),		1,			 -1 },
 	{ "firefox",  NULL,			NULL,		SPTAG(4),		1,			 -1 },
-	{ NULL,		  "tqute",   	NULL,		SPTAG(5),		1,			 -1 },
+	{ "chromium", NULL,   	   NULL,		SPTAG(5),		1,			 -1 },
+	{ "qutebrowser",NULL,   	NULL,		SPTAG(5),		1,			 -1 },
 };
 
 /* layout(s) */
@@ -117,7 +122,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_b,      setlayout,      {.v = &layouts[4]} },
-	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[5]} },
+	{ MODKEY,                       XK_z,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY|ShiftMask,             XK_space,  setlayout,      {0} },
 	{ MODKEY,			              XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
@@ -198,6 +203,7 @@ static Key keys[] = {
 	{ MODKEY,            			  XK_n,	   togglescratch,  {.ui = 3 } },
 	{ MODKEY,            			  XK_w,	   togglescratch,  {.ui = 4 } },
 	{ MODKEY|ShiftMask,    			  XK_w,	   togglescratch,  {.ui = 5 } },
+	{ MODKEY,			    			  XK_o,	   togglescratch,  {.ui = 6 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -207,7 +213,11 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+
 	{ MODKEY|ShiftMask,	           XK_F12,    quit,           {0} },
+	{ MODKEY|ShiftMask,	           XK_q,    	 quit,           {0} },
+	{ MODKEY,	                    XK_F12,    quit,           {0} },
+	{ MODKEY|ControlMask,	        XK_F12,    quit,           {0} },
 };
 
 /* button definitions */
