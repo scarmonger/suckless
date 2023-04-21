@@ -43,7 +43,7 @@ typedef struct {
 } Sp;
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
 /* const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL }; */
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "120x34", NULL }; 
+const char *spcmd2[] = {"st", "-n", "spfm", "-g", "125x38", NULL }; 
 const char *spcmd3[] = {"tthunar", NULL };
 const char *spcmd4[] = {"tobsidian", NULL };
 const char *spcmd5[] = {"tfirefox", NULL };
@@ -169,7 +169,7 @@ static Key keys[] = {
 	{ MODKEY,                  	  XK_Escape, spawn, 				 SHCMD("slock")},
 	{ MODKEY|ShiftMask,        	  XK_Escape, spawn, 				 SHCMD("systemctl suspend; slock")},
 	{ MODKEY,                       XK_p,      spawn, 	          {.v = dmenucmd } },
-	{ MODKEY,					    	  XK_Return, spawn,      	  	 {.v = termcmd } },
+	{ MODKEY,					    	  XK_y, 		 spawn,      	  	 {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          	 SHCMD("alacritty")}, 
 	{ MODKEY,                       XK_grave,	 spawn, 				 SHCMD("dunstctl history-pop") },
 	{ MODKEY|ShiftMask,             XK_grave,	 spawn, 				 SHCMD("dunstctl close-all") },
@@ -181,8 +181,6 @@ static Key keys[] = {
 	{ MODKEY,      			      XK_w,		 spawn, 				 SHCMD("firefox")},
 	kkk*/
 	{ MODKEY,             		   XK_v,	 	 spawn, 				 SHCMD("clipmenu")},
-	{ MODKEY,                  	XK_e,		 spawn, 				 SHCMD(TERMINAL " -e ranger")},
-	{ MODKEY|ShiftMask,           XK_e, 	 spawn, 				 SHCMD("thunar")},
 	{ 0,						  			XK_Print, spawn,				 SHCMD("ksnip -s")},
 
 	{ MODKEY,		             	XK_BackSpace, spawn,        	 SHCMD("linux-config-file")},
@@ -197,12 +195,12 @@ static Key keys[] = {
 	{ MODKEY,			              XK_q,      killclient,     	 {0} },
 
 	/** Scratchpad */
-	{ MODKEY,            		 	  XK_y,     togglescratch,  {.ui = 0 } },
+	{ MODKEY,            		 	  XK_Return,togglescratch,  {.ui = 0 } },
 	{ MODKEY,            			  XK_u,	   togglescratch,  {.ui = 1 } },
-	{ MODKEY|ShiftMask,       		  XK_u,	   togglescratch,  {.ui = 2 } },
+	{ MODKEY|ShiftMask,			     XK_u,	   togglescratch,  {.ui = 2 } },
 	{ MODKEY,            			  XK_n,	   togglescratch,  {.ui = 3 } },
 	{ MODKEY,            			  XK_w,	   togglescratch,  {.ui = 4 } },
-	{ MODKEY|ShiftMask,    			  XK_w,	   togglescratch,  {.ui = 5 } },
+	{ MODKEY,    			  			  XK_e,	   togglescratch,  {.ui = 5 } },
 	{ MODKEY,			    			  XK_o,	   togglescratch,  {.ui = 6 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
