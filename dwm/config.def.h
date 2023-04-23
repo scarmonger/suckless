@@ -43,7 +43,7 @@ typedef struct {
 } Sp;
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
 /* const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL }; */
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "125x38", NULL }; 
+const char *spcmd2[] = {"talacritty", NULL }; 
 const char *spcmd3[] = {"tthunar", NULL };
 const char *spcmd4[] = {"tobsidian", NULL };
 const char *spcmd5[] = {"tfirefox", NULL };
@@ -71,7 +71,7 @@ static const Rule rules[] = {
 	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
 	/** { "firefox",  NULL,			NULL,		1 << 8,			1,			 -1 }, */
 	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,			 -1 },
-	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,			 -1 },
+	{ "Alacritty",NULL, 			NULL,		SPTAG(1),		0,			 -1 },
 	{ "Thunar",   NULL,		   NULL,		SPTAG(2),		1,			 -1 },
 	{ "obsidian", NULL,		  	NULL,		SPTAG(3),		1,			 -1 },
 	{ "firefox",  NULL,			NULL,		SPTAG(4),		1,			 -1 },
@@ -123,7 +123,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_b,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_z,      setlayout,      {.v = &layouts[5]} },
-	{ MODKEY|ShiftMask,             XK_space,  setlayout,      {0} },
 	{ MODKEY,			              XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -173,6 +172,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          	 SHCMD("alacritty")}, 
 	{ MODKEY,                       XK_grave,	 spawn, 				 SHCMD("dunstctl history-pop") },
 	{ MODKEY|ShiftMask,             XK_grave,	 spawn, 				 SHCMD("dunstctl close-all") },
+	{ MODKEY|ControlMask, 			  XK_grave,	 spawn, 				 SHCMD("notify-send 'Mute Notification' -u normal -i bell-off; sleep 3; killall dunst") },
+	{ MODKEY|ShiftMask|ControlMask, XK_grave,	 spawn, 				 SHCMD("notify-send 'Unmute Notification' -u normal -i bell-ring") },
 	/** { MODKEY,                       XK_b,      togglebar,      	 {0} }, */
 
 	/** Application */
