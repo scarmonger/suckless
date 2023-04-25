@@ -185,8 +185,8 @@ static Key keys[] = {
 	{ MODKEY,		              XK_BackSpace, spawn,        	 SHCMD("linux-config-file")},
 
 	/** Application */
-	{ MODKEY,             		  XK_F1,	  	spawn, 			 SHCMD("st -e mocp")},
-	{ MODKEY|ShiftMask,		      XK_F1,        spawn,        	 SHCMD("mocp -G")},
+	{ MODKEY|ShiftMask,     	  XK_F1,	  	spawn, 			 SHCMD("st -e mocp")},
+	{ MODKEY,					  XK_F1,        spawn,        	 SHCMD("mocp -G")},
 	{ MODKEY,             		  XK_F2,	  	spawn, 			 SHCMD("mocp -f")},
 	{ MODKEY|ShiftMask,		      XK_F2,        spawn,        	 SHCMD("mocp -r")},
 
