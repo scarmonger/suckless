@@ -96,36 +96,79 @@ unsigned int tabspaces = 8;
 
 /* bg opacity */
 float alpha = 0.6;
+/*
+static const char *colorname[] = {
+	"#282828", 
+	"#cc241d",
+	"#98971a",
+	"#d79921",
+	"#458588",
+	"#b16286",
+	"#689d6a",
+	"#a89984",
+	"#928374",
+	"#fb4934",
+	"#b8bb26",
+	"#fabd2f",
+	"#83a598",
+	"#d3869b",
+	"#8ec07c",
+	"#ebdbb2",
+	[255] = 0,
+	"#add8e6",
+	"#555555",
+	"#282828",
+	"#ebdbb2",
+};*/
+/*
+static const char *colorname[] = {
+	"#282828", 
+	"#cc241d",
+	"#98971a",
+	"#d79921",
+	"#458588",
+	"#b16286",
+	"#689d6a",
+	"#a89984",
+	"#928374",
+	"#fb4934",
+	"#b8bb26",
+	"#fabd2f",
+	"#83a598",
+	"#d3869b",
+	"#8ec07c",
+	"#ebdbb2",
+	[255] = 0,
+	"#add8e6",
+	"#555555",
+	"#282828",
+	"#ebdbb2",
+};
+*/
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
-	/* 8 normal colors */
-	"black",
-	"red3",
-	"green3",
-	"yellow3",
-	"blue2",
-	"magenta3",
-	"cyan3",
-	"gray90",
-
-	/* 8 bright colors */
+	"#282828",
+	"#cc241d",
+	"#98971a",
+	"#d79921",
+	"#b16286", /* p10k home icon bg color & root folder color */
+	"#689d6a",
+	"#a89984",
+	"#928374", /* p10k arch icon bg color */
 	"gray50",
 	"red",
 	"green",
 	"yellow",
-	"#5c5cff",
+	"#83a598", /* color folder in lf */
 	"magenta",
-	"cyan",
-	"white",
-
+	"#8ec07c",
+	"#ebdbb2",
 	[255] = 0,
-
-	/* more colors can be added after 255 to use with DefaultXX */
-	"#cccccc",
-	"#555555",
-	"gray90", /* default foreground colour */
-	"black", /* default background colour */
+	"#cccccc", /* cursor */
+	"#555555", /* rev cursor */
+	"gray90",  /* bg color */
+	"black",   /* fg color */
 };
 
 
