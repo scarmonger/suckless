@@ -167,8 +167,8 @@ static Key keys[] = {
 	{ MODKEY|ControlMask, 		    XK_grave,	 spawn, 			 SHCMD("notify-send 'Mute Notification' -u normal -i bell-off; sleep 3; killall dunst") },
 	{ MODKEY|ShiftMask|ControlMask, XK_grave,	 spawn, 			 SHCMD("notify-send 'Unmute Notification' -u normal -i bell-ring") },
 
+	{ MODKEY,						XK_F7,	 spawn, 				 SHCMD("picom -f")},
 	{ MODKEY,	                    XK_F8,   spawn,          		 SHCMD("killall picom")},
-	{ MODKEY|ShiftMask,				XK_F8,	 spawn, 				 SHCMD("picom -f")},
 	{ MODKEY,           			XK_F11,	 spawn, 				 SHCMD("brightnessctl set 5%+")},
 	{ MODKEY|ShiftMask,				XK_F11,	 spawn, 				 SHCMD("brightnessctl set 5%-")},
 	{ MODKEY,                       XK_F10,	 spawn, 				 SHCMD("amixer set Master 5%+; changevolume up") },
