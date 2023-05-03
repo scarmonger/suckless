@@ -160,7 +160,8 @@ static Key keys[] = {
 
 	{ MODKEY,                  	  	XK_Escape, 		spawn,			 SHCMD("slock")},
 	{ MODKEY|ShiftMask,        	  	XK_Escape, 		spawn,			 SHCMD("systemctl suspend; slock")},
-	{ MODKEY|ShiftMask,           	XK_Return, 		spawn,	       	 SHCMD("alacritty")}, 
+	{ MODKEY,			           	XK_Return, 		spawn,	       	 SHCMD("alacritty")}, 
+	{ MODKEY|ShiftMask,           	XK_Return, 		spawn,	       	 SHCMD("st")}, 
 
 	{ MODKEY,                       XK_grave,	 spawn, 			 SHCMD("dunstctl history-pop") },
 	{ MODKEY|ShiftMask,             XK_grave,	 spawn, 			 SHCMD("dunstctl close-all") },
@@ -190,7 +191,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		      XK_F2,        spawn,        	 SHCMD("mocp -r")},
 
 	/** Scratchpad */
-	{ MODKEY,            		   XK_Return,  togglescratch,  {.ui = 0 } },
+	{ MODKEY,            		   XK_y,	   togglescratch,  {.ui = 0 } },
 	{ MODKEY,            		   XK_u,	   togglescratch,  {.ui = 1 } },
 	{ MODKEY|ShiftMask,		       XK_u,	   togglescratch,  {.ui = 2 } },
 	{ MODKEY,            		   XK_n,	   togglescratch,  {.ui = 3 } },

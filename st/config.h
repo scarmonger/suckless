@@ -6,7 +6,7 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 /** static char *font = "Liberation Mono:pixelsize=18:antialias=true:autohint=true";*/
-static char *font = "JetBrains Mono:size=14:antialias=true:autohint=true";
+static char *font = "Single Day:size=14:antialias=true:autohint=true";
 static int borderpx = 1;
 
 /*
@@ -131,16 +131,20 @@ static const char *colorname[] = {
 	"red3",
 	"green3",
 	"yellow3",
-	"blue2",	/* p10k home icon bg color & root folder color */
+	/* "blue2",	** p10k home icon bg color & root folder color */
+	
+	"#b16286",  /* p10k home icon bg color & root folder color */
 	"magenta3",
 	"cyan3",
-	"gray90",	/* p10k arch icon bg color */
+	/*"gray90",	** p10k arch icon bg color */
+	"#928374",  /* p10k arch icon bg color */
 
 	"gray50",
 	"red",
 	"green",
 	"yellow",
-	"#5c5cff",	/* folder color in lf */
+	/*"#5c5cff",	** folder color in lf */
+	"#83a598",  /* folder color in lf */
 	"magenta",
 	"cyan",
 	"white",
