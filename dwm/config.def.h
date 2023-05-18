@@ -160,8 +160,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		      XK_F2,        spawn,        	 SHCMD("mocp -r")},
 
 	/** Scratchpad */
-	{ MODKEY,            		   XK_Return,   spawn, 			 SHCMD("alacritty")},
-	{ MODKEY|ShiftMask,            XK_Return,	spawn,	       	 {.v = termcmd } },
+	{ MODKEY|ShiftMask,   		   XK_Return,   spawn, 			 SHCMD("alacritty")},
+	{ MODKEY,        			   XK_Return,	spawn,	       	 {.v = termcmd } },
 	{ MODKEY,            		   XK_u,	    spawn, 			 SHCMD("thunar ~/Downloads")},
 	{ MODKEY,            		   XK_n,	    spawn, 			 SHCMD("obsidian")},
 	{ MODKEY,            		   XK_w,	    spawn, 			 SHCMD("firefox")},
