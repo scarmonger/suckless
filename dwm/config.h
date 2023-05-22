@@ -134,9 +134,8 @@ static Key keys[] = {
 
 	{ MODKEY,                       XK_grave,	 spawn, 			 SHCMD("dunstctl history-pop") },
 	{ MODKEY|ShiftMask,             XK_grave,	 spawn, 			 SHCMD("dunstctl close-all") },
-	{ MODKEY|ControlMask, 		    XK_grave,	 spawn, 			 SHCMD("dunstctl set-paused toggle") },
-	/*{ MODKEY|ControlMask, 		    XK_grave,	 spawn, 			 SHCMD("notify-send 'Mute Notification' -u normal -i bell-off; sleep 3; dunstctl set-paused toggle") },
-*/
+	{ MODKEY|ControlMask, 		    XK_grave,	 spawn, 			 SHCMD("notify-send 'Mute Notification' -u normal -i bell-off; sleep 3; dunstctl set-paused toggle") },
+
 	{ MODKEY,						XK_F7,	 spawn, 				 SHCMD("picom -f")},
 	{ MODKEY,	                    XK_F8,   spawn,          		 SHCMD("killall picom")},
 	{ MODKEY,           			XK_F11,	 spawn, 				 SHCMD("brightnessctl set 5%+")},
