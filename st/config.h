@@ -145,7 +145,7 @@ static const char *colorname[] = {
 	"yellow",
 	/*"#5c5cff",	** folder color in lf */
 	"#83a598",  /* folder color in lf */
-	"magenta",
+	"#458588",
 	"cyan",
 	"white",
 
