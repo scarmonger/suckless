@@ -131,20 +131,20 @@ static const char *colorname[] = {
 	"red3",
 	"green3",
 	"yellow3",
-	/* "blue2",	** p10k home icon bg color & root folder color */
+	"blue2",	/* p10k home icon bg color & root folder color */
 	
-	"#b16286",  /* p10k home icon bg color & root folder color */
+	/* "#b16286",  p10k home icon bg color & root folder color */
 	"magenta3",
 	"cyan3",
-	/*"gray90",	** p10k arch icon bg color */
-	"#928374",  /* p10k arch icon bg color */
+	"gray90",	   /* p10k arch icon bg color */
+	/* "#928374",   p10k arch icon bg color */
 
 	"gray50",
 	"red",
 	"green",
 	"yellow",
-	/*"#5c5cff",	** folder color in lf */
-	"#83a598",  /* folder color in lf */
+	"#5c5cff",	/* folder color in lf */
+	/*"#83a598",   folder color in lf */
 	"#458588",
 	"cyan",
 	"white",
